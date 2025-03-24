@@ -17,6 +17,11 @@ function truncate($text, $ending = '...') {
 }
 ?>
     <div class="container-md mt-5">
+        <div class="h-100 p-5 text-bg-info text-white rounded-3">
+            <h1>Catalogue des cours</h1>
+            <p class="h3">Bienvenue sur le site de cours en ligne</p>
+            <a class="btn btn-outline-light btn-lg" href="ajout-cours.php">Ajouter un cours</a>
+        </div>
         <div class="row no-gutters">
             <div class="col-md-4 mt-5 d-flex ">
             <?php foreach ($cours as $cour) : ?>
@@ -30,6 +35,18 @@ function truncate($text, $ending = '...') {
                             $type = getCoursType($cour['idType']);
                             ?>
                             <span class="badge bg-primary"><?= $type['libelle'] ?></span>
+                        </div>
+                        <div class="card-footer mt-3 d-flex justify-content-around">
+                            <form action="" method="GET">
+                                <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
+                                <input type="hidden" name="type" value="modification" />
+                                <input type="submit" value="Modifier" class="btn btn-primary" />
+                            </form>
+                            <form action="" method="GET">
+                                <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
+                                <input type="hidden" name="type" value="suppression" />
+                                <input type="submit" value="Supprimer" class="btn btn-outline-danger" />
+                            </form>
                         </div>
                     </div>
             <?php endforeach; ?>
