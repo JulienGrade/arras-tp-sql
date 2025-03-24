@@ -56,6 +56,27 @@ function truncate($text, $ending = '...') {
             <?php }
         }
         $cours = getCours();
+        // MODIFICATION
+        if(isset($_POST['type']) && $_POST['type'] === 'modificationEtape2')
+        {
+            $success = updateCours($_POST['idCours'], $_POST['nomCours'], $_POST['descCours']);
+            if($success){ ?>
+                <div class="container-md">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <p>La modification s'est bien déroulée</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            <?php }else { ?>
+                <div class="container-md">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <p>La modification ne s'est pas bien déroulée</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            <?php }
+        }
+        $cours = getCours();
         ?>
         <div class="row no-gutters">
             <div class="col-md-4 mt-5 d-flex ">
@@ -89,6 +110,8 @@ function truncate($text, $ending = '...') {
                             </div>
                         <?php }else{?>
                             <form class="card mx-auto" style="width: 22rem;height: 40rem" action="" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="type" value="modificationEtape2" />
+                                <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
                                 <img src="assets/img/<?= $cour['image'] ?>" class="card-img-top img-fluid" alt="<?= $cour['libelle'] ?>">
                                 <div class="card-body">
                                     <div class="form-group">
@@ -106,7 +129,7 @@ function truncate($text, $ending = '...') {
                                 </div>
                                 <div class="card-footer d-flex justify-content-around">
                                     <input type="submit" value="Valider" class="btn btn-primary" />
-                                    <input type="submit" value="Annuler" class="btn btn-outline-danger" />
+                                    <input type="submit" value="Annuler" onclick="cancelModification(event)" class="btn btn-outline-danger" />
                                 </div>
                             </form>
                         <?php }
