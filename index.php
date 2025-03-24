@@ -6,6 +6,7 @@ include_once 'partials/header.php';
 require_once 'request/catalogue.dao.php';
 
 $cours= getCours();
+$types = getTypes();
 
 
 // Fonction permettant de tronquer le texte
@@ -59,7 +60,7 @@ function truncate($text, $ending = '...') {
         // MODIFICATION
         if(isset($_POST['type']) && $_POST['type'] === 'modificationEtape2')
         {
-            $success = updateCours($_POST['idCours'], $_POST['nomCours'], $_POST['descCours']);
+            $success = updateCours($_POST['idCours'], $_POST['nomCours'], $_POST['descCours'], $_POST['idCours']);
             if($success){ ?>
                 <div class="container-md">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -122,10 +123,16 @@ function truncate($text, $ending = '...') {
                                         <label for="descCours">Description du cours :</label>
                                         <textarea name="descCours" id="descCours" class="form-control"><?= $cour['description'] ?></textarea>
                                     </div>
-                                    <?php
-                                    $type = getCoursType($cour['idType']);
-                                    ?>
-                                    <span class="badge bg-primary"><?= $type['libelle'] ?></span>
+                                    <div class="form-group">
+                                        <label for="idType">Type du cours :</label>
+                                        <select id="idType" name="idType" class="form-control">
+                                            <?php foreach($types as $type): ?>
+                                                <option value="<?= $type['idType'] ?>" <?= ($type['idType'] === $cour['idType']) ? "selected" : "" ?>>
+                                                    <?= $type['libelle'] ?>
+                                                </option>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-around">
                                     <input type="submit" value="Valider" class="btn btn-primary" />
