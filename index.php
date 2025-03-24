@@ -59,32 +59,61 @@ function truncate($text, $ending = '...') {
         ?>
         <div class="row no-gutters">
             <div class="col-md-4 mt-5 d-flex ">
-            <?php foreach ($cours as $cour) : ?>
+                <?php foreach ($cours as $cour) : ?>
+                    <div class="col-md-4 mt-5">
+                        <?php
+                        if(!isset($_GET['type']) || $_GET['type'] !== 'modification' || $_GET['idCours'] !== $cour['idCours'])
+                        {?>
+                            <div class="card mx-auto" style="width: 18rem;height: 30rem">
+                                <img src="assets/img/<?= $cour['image'] ?>" class="card-img-top img-fluid" alt="<?= $cour['libelle'] ?>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $cour['libelle'] ?></h5>
+                                    <p class="card-text"><?= truncate($cour['description']) ?></p>
+                                    <?php
+                                    $type = getCoursType($cour['idType']);
+                                    ?>
+                                    <span class="badge bg-primary"><?= $type['libelle'] ?></span>
+                                </div>
+                                <div class="card-footer mt-3 d-flex justify-content-around">
+                                    <form action="" method="GET">
+                                        <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
+                                        <input type="hidden" name="type" value="modification" />
+                                        <input type="submit" value="Modifier" class="btn btn-primary" />
+                                    </form>
+                                    <form action="" method="GET">
+                                        <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
+                                        <input type="hidden" name="type" value="suppression" />
+                                        <input type="submit" value="Supprimer" class="btn btn-outline-danger" />
+                                    </form>
+                                </div>
+                            </div>
+                        <?php }else{?>
+                            <form class="card mx-auto" style="width: 22rem;height: 40rem" action="" method="POST" enctype="multipart/form-data">
+                                <img src="assets/img/<?= $cour['image'] ?>" class="card-img-top img-fluid" alt="<?= $cour['libelle'] ?>">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="nomCours">Nom du cours :</label>
+                                        <input type="text" name="nomCours" value="<?= $cour['libelle'] ?>" id="nomCours" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="descCours">Description du cours :</label>
+                                        <textarea name="descCours" id="descCours" class="form-control"><?= $cour['description'] ?></textarea>
+                                    </div>
+                                    <?php
+                                    $type = getCoursType($cour['idType']);
+                                    ?>
+                                    <span class="badge bg-primary"><?= $type['libelle'] ?></span>
+                                </div>
+                                <div class="card-footer d-flex justify-content-around">
+                                    <input type="submit" value="Valider" class="btn btn-primary" />
+                                    <input type="submit" value="Annuler" class="btn btn-outline-danger" />
+                                </div>
+                            </form>
+                        <?php }
+                        ?>
 
-                    <div class="card mx-auto" style="width: 18rem;height: 30rem">
-                        <img src="assets/img/<?= $cour['image'] ?>" class="card-img-top img-fluid" alt="<?= $cour['libelle'] ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= $cour['libelle'] ?></h5>
-                            <p class="card-text"><?= truncate($cour['description']) ?></p>
-                            <?php
-                            $type = getCoursType($cour['idType']);
-                            ?>
-                            <span class="badge bg-primary"><?= $type['libelle'] ?></span>
-                        </div>
-                        <div class="card-footer mt-3 d-flex justify-content-around">
-                            <form action="" method="GET">
-                                <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
-                                <input type="hidden" name="type" value="modification" />
-                                <input type="submit" value="Modifier" class="btn btn-primary" />
-                            </form>
-                            <form action="" method="GET">
-                                <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
-                                <input type="hidden" name="type" value="suppression" />
-                                <input type="submit" value="Supprimer" class="btn btn-outline-danger" />
-                            </form>
-                        </div>
                     </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
