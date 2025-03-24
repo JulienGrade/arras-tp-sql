@@ -18,3 +18,19 @@ function getCoursType($idType)
     $stmt->execute();
     return $stmt->fetch();
 }
+
+function getCoursNameToDelete($idCours)
+{
+    $dbh = getConnexion();
+    $req = 'SELECT CONCAT(idCours, " : ",libelle) AS monCours FROM cours WHERE idCours = :idCours';
+    $stmt = $dbh->prepare($req);
+    $stmt->bindValue(":idCours", $idCours, PDO::PARAM_INT);
+    $stmt->execute();
+    $res = $stmt->fetch();
+    return $res['monCours'];
+}
+
+function deleteCours($idCours)
+{
+
+}

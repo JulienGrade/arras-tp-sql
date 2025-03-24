@@ -22,6 +22,41 @@ function truncate($text, $ending = '...') {
             <p class="h3">Bienvenue sur le site de cours en ligne</p>
             <a class="btn btn-outline-light btn-lg" href="ajout-cours.php">Ajouter un cours</a>
         </div>
+        <?php
+    // SUPPRESSION
+        if(isset($_GET['type']) && $_GET['type'] === 'suppression')
+        {
+            $coursNameToDelete = getCoursNameToDelete($_GET['idCours']);
+            ?>
+            <div class="container-md">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p>Voulez vous vraiment supprimer <strong><?= $coursNameToDelete ?></strong> ?</p>
+                    <a href="?delete=<?= $_GET['idCours'] ?>" class="btn btn-outline-danger">Confirmer</a>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        <?php }
+        if(isset($_GET['delete']))
+        {
+            $success = deleteCours($_GET['delete']);
+            if($success){ ?>
+                <div class="container-md">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <p>La suppression s'est bien déroulée</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            <?php }else{?>
+                <div class="container-md">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <p>La suppression ne s'est pas bien déroulée</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            <?php }
+        }
+        $cours = getCours();
+        ?>
         <div class="row no-gutters">
             <div class="col-md-4 mt-5 d-flex ">
             <?php foreach ($cours as $cour) : ?>
